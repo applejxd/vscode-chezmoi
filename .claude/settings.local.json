@@ -10,7 +10,8 @@
       "mcp__serena__onboarding",
       "mcp__serena__get_symbols_overview",
       "mcp__serena__find_symbol",
-      "mcp__serena__write_memory"
+      "mcp__serena__write_memory",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
