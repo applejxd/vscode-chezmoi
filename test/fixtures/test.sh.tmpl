@@ -1,0 +1,15 @@
+#!/bin/sh
+echo "User: {{ .username }} Host: {{ .chezmoi.hostname }}"
+{{ if eq .chezmoi.os "linux" -}}
+echo "on Linux"
+{{- else -}}
+echo "not Linux"
+{{ end }}
+
+# Example of nested template logic
+{{- range .packages }}
+sudo apt install {{ . }}
+{{- end }}
+
+# Example with sprig functions
+export PATH="/home/{{ .username | lower }}/.local/bin:$PATH"

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vscode/master/extensions/theme-defaults/syntaxes/tmLanguage.schema.json",
+  "scopeName": "chezmoi.templating.injection",
+  "injectionSelector": "L:source.shell -comment -string, L:source.powershell -comment -string, L:text.plain -comment -string",
+  "patterns": [
+    {
+      "begin": "\\{\\{\\-?",
+      "end": "\\-?\\}\\}",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.template.begin.go" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.template.end.go" }
+      },
+      "contentName": "meta.embedded.block.go-template",
+      "patterns": [
+        { "include": "source.go-template" }
+      ]
+    }
+  ]
+}

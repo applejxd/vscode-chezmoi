@@ -1,0 +1,16 @@
+Write-Host "User: {{ .username }} Host: {{ .chezmoi.hostname }}"
+{{ if eq .chezmoi.os "windows" -}}
+Write-Host "on Windows"
+{{- end }}
+
+# Example of PowerShell with chezmoi templates
+{{- range .powershell_modules }}
+Install-Module -Name {{ . }} -Force
+{{- end }}
+
+$env:PATH = "$env:PATH;C:\Users\{{ .username }}\bin"
+
+# Example with conditional PowerShell execution
+{{ if .development_mode -}}
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+{{- end }}

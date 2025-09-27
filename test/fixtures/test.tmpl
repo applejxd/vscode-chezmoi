@@ -1,0 +1,21 @@
+Hello, {{ .name | default "world" }}!
+
+This is a generic template file that demonstrates:
+- Basic variable substitution: {{ .username }}
+- Function calls: {{ .name | upper }}
+- Conditionals:
+{{ if .debug -}}
+Debug mode is enabled
+{{- else -}}
+Debug mode is disabled
+{{- end }}
+
+Configuration values:
+{{- range $key, $value := .config }}
+{{ $key }}: {{ $value }}
+{{- end }}
+
+Chezmoi specific data:
+- OS: {{ .chezmoi.os }}
+- Arch: {{ .chezmoi.arch }}
+- Hostname: {{ .chezmoi.hostname }}

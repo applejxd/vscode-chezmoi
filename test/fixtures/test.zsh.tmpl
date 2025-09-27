@@ -1,0 +1,33 @@
+#!/bin/zsh
+
+# Zsh configuration with chezmoi templates
+export ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
+
+{{ if .oh_my_zsh.enabled -}}
+# Oh My Zsh configuration
+ZSH_THEME="{{ .oh_my_zsh.theme | default "robbyrussell" }}"
+
+plugins=(
+{{- range .oh_my_zsh.plugins }}
+  {{ . }}
+{{- end }}
+)
+{{- end }}
+
+# User-specific aliases
+{{- range $alias, $command := .aliases }}
+alias {{ $alias }}="{{ $command }}"
+{{- end }}
+
+# Platform-specific configuration
+{{ if eq .chezmoi.os "darwin" -}}
+export HOMEBREW_PREFIX="/opt/homebrew"
+{{- else if eq .chezmoi.os "linux" -}}
+export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+{{- end }}
+
+# Development environment
+{{ if .development.enabled -}}
+export EDITOR="{{ .development.editor | default "vim" }}"
+export BROWSER="{{ .development.browser | default "firefox" }}"
+{{- end }}
