@@ -1,0 +1,8 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vscode/master/extensions/theme-defaults/syntaxes/tmLanguage.schema.json",
+  "name": "Chezmoi Template",
+  "scopeName": "text.plain.chezmoi",
+  "patterns": [
+    { "include": "text.plain" }
+  ]
+}

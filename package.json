@@ -33,14 +33,60 @@
     "jinliming2.vscode-go-template"
   ],
   "contributes": {
+    "languages": [
+      {
+        "id": "chezmoi-tmpl",
+        "aliases": ["Chezmoi Template", "chezmoi-tmpl"],
+        "extensions": [".tmpl"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "chezmoi-sh-tmpl",
+        "aliases": ["Chezmoi Shell Template", "chezmoi-sh-tmpl"],
+        "extensions": [".sh.tmpl"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "chezmoi-zsh-tmpl",
+        "aliases": ["Chezmoi Zsh Template", "chezmoi-zsh-tmpl"],
+        "extensions": [".zsh.tmpl"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "chezmoi-ps1-tmpl",
+        "aliases": ["Chezmoi PowerShell Template", "chezmoi-ps1-tmpl"],
+        "extensions": [".ps1.tmpl"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
     "grammars": [
+      {
+        "language": "chezmoi-tmpl",
+        "scopeName": "text.plain.chezmoi",
+        "path": "./syntaxes/chezmoi-tmpl.tmLanguage.json"
+      },
+      {
+        "language": "chezmoi-sh-tmpl",
+        "scopeName": "source.shell.chezmoi",
+        "path": "./syntaxes/chezmoi-sh-tmpl.tmLanguage.json"
+      },
+      {
+        "language": "chezmoi-zsh-tmpl",
+        "scopeName": "source.shell.chezmoi",
+        "path": "./syntaxes/chezmoi-zsh-tmpl.tmLanguage.json"
+      },
+      {
+        "language": "chezmoi-ps1-tmpl",
+        "scopeName": "source.powershell.chezmoi",
+        "path": "./syntaxes/chezmoi-ps1-tmpl.tmLanguage.json"
+      },
       {
         "scopeName": "chezmoi.templating.injection",
         "path": "./syntaxes/chezmoi-templating.injection.tmLanguage.json",
         "injectTo": [
-          "source.shell",
-          "source.powershell",
-          "text.plain"
+          "source.shell.chezmoi",
+          "source.powershell.chezmoi",
+          "text.plain.chezmoi"
         ],
         "embeddedLanguages": {
           "meta.embedded.block.go-template": "go-template"

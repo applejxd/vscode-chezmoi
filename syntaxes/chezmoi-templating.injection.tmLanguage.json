@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vscode/master/extensions/theme-defaults/syntaxes/tmLanguage.schema.json",
   "scopeName": "chezmoi.templating.injection",
-  "injectionSelector": "L:source.shell -comment -string, L:source.powershell -comment -string, L:text.plain -comment -string",
+  "injectionSelector": "L:source.shell -comment -string, L:source.powershell -comment -string, L:text.plain -comment -string, L:text -comment -string",
   "patterns": [
     {
       "begin": "\\{\\{\\-?",
