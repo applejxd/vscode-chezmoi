@@ -7,10 +7,10 @@ import { ConfigurationTarget, ExtensionContext, window, workspace } from "vscode
  * Go Template injection through the grammar definition.
  */
 const ASSOCIATIONS: Record<string, string> = {
-  "*.sh.tmpl": "shellscript",   // Shell script templates (bash-based)
-  "*.zsh.tmpl": "shellscript",  // Zsh templates (treated as shellscript, can be used with zsh extensions)
-  "*.ps1.tmpl": "powershell",   // PowerShell script templates
-  "*.tmpl": "plaintext"         // Generic templates (fallback to plain text)
+  "*.sh.tmpl": "chezmoi-sh-tmpl",   // Shell script templates with chezmoi support
+  "*.zsh.tmpl": "chezmoi-zsh-tmpl", // Zsh templates with chezmoi support
+  "*.ps1.tmpl": "chezmoi-ps1-tmpl", // PowerShell script templates with chezmoi support
+  "*.tmpl": "chezmoi-tmpl"          // Generic templates with chezmoi support
 };
 
 /**

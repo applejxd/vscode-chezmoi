@@ -1,112 +1,194 @@
-# VS Code 拡張: chezmoi テンプレート付きファイルのシンタックスハイライト
-対象拡張子: `.tmpl`, `.sh.tmpl`, `.zsh.tmpl`, `.ps1.tmpl`  
-目的: 元の言語（text/shell/powershell）のハイライトに **Go Template**（chezmoi 準拠）を**同時適用**。
+# Chezmoi Template Syntax Extension: Build and Implementation Guide
+
+This document provides a comprehensive guide for building and implementing the VS Code extension for chezmoi template syntax highlighting.
+
+**Target Extensions**: `.tmpl`, `.sh.tmpl`, `.zsh.tmpl`, `.ps1.tmpl`
+**Purpose**: Simultaneously apply **Go Template** syntax highlighting (chezmoi-compliant) to base languages (text/shell/powershell).
 
 ---
 
-## 0. 事前準備
+## Table of Contents
+
+1. [Prerequisites](#1-prerequisites)
+2. [Project Setup](#2-project-setup)
+3. [Dependency Management](#3-dependency-management)
+4. [Language Definitions](#4-language-definitions)
+5. [Grammar Injection](#5-grammar-injection)
+6. [File Associations](#6-file-associations)
+7. [Testing and Debugging](#7-testing-and-debugging)
+8. [Packaging and Publishing](#8-packaging-and-publishing)
+9. [Maintenance and Extensions](#9-maintenance-and-extensions)
+
+---
+
+## 1. Prerequisites
+
 ```bash
-# Node.js 18+ 推奨
-npm -g i yo generator-code @vscode/vsce
+# Node.js 18+ recommended
+npm install -g yo generator-code @vscode/vsce
 ```
 
+**Note**: This extension operates using **grammar injection + configuration assistance only**. No LSP is required.
+
 ---
 
-## 1. プロジェクト作成（TypeScript）
+## 2. Project Setup
+
+### Initial Project Creation
 ```bash
 yo code
-# -> "New Extension (TypeScript)" を選択
+# Select "New Extension (TypeScript)"
 # Name: chezmoi-template-syntax
 # Identifier: chezmoi-template-syntax
 # Description: Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl)
-# Git/Package Manager は任意
 cd chezmoi-template-syntax
-npm i
+npm install
 ```
 
-> この拡張は**文法注入＋設定補助のみ**で動作。LSP等は不要。
+### Current Architecture Overview
+
+The implemented solution uses **dedicated language definitions** instead of relying on standard VS Code language associations. This provides more reliable scope control and eliminates conflicts.
+
+**Key Innovation**: Custom language IDs with dedicated scopes:
+- `chezmoi-tmpl` → `text.plain.chezmoi`
+- `chezmoi-sh-tmpl` → `source.shell.chezmoi`
+- `chezmoi-zsh-tmpl` → `source.shell.chezmoi`
+- `chezmoi-ps1-tmpl` → `source.powershell.chezmoi`
 
 ---
 
-## 2. 依存拡張（Go Template）の追加
-`package.json` に **extensionDependencies** を追加（自動で一緒に入るようにする）:
+## 3. Dependency Management
 
-```jsonc
+Add **extensionDependencies** to `package.json` for automatic installation:
+
+```json
 {
-  // ...
   "extensionDependencies": [
     "jinliming2.vscode-go-template"
   ]
 }
 ```
 
-> chezmoi のテンプレは Go の `text/template` + Sprig + chezmoi独自関数。Go Template 拡張の文法をそのまま再利用する。
+**Rationale**: Chezmoi templates use Go's `text/template` + Sprig + chezmoi-specific functions. We reuse the existing Go Template extension's grammar.
 
 ---
 
-## 3. ファイル関連付け（.tmpl / .sh.tmpl / .zsh.tmpl / .ps1.tmpl）
-拡張が**初回起動時にユーザーへ確認し、`files.associations` に追記**する方式。  
-`src/extension.ts` を **丸ごと置換**:
+## 4. Language Definitions
 
-```ts
-import { ConfigurationTarget, ExtensionContext, window, workspace } from "vscode";
+### Package.json Configuration
 
-const ASSOCIATIONS: Record<string, string> = {
-  "*.sh.tmpl": "shellscript",   // bashベース
-  "*.zsh.tmpl": "shellscript",  // zsh も shellscript で扱う（必要なら zsh 拡張と併用可）
-  "*.ps1.tmpl": "powershell",
-  "*.tmpl": "plaintext"         // 汎用テンプレ：最低限はプレーンテキスト
-};
+Add language definitions to enable explicit file type recognition:
 
-export async function activate(ctx: ExtensionContext) {
-  const cfg = workspace.getConfiguration("files");
-  const current = (cfg.get<Record<string, string>>("associations") ?? {});
-  const missing = Object.entries(ASSOCIATIONS).filter(([k, v]) => current[k] !== v);
-
-  if (missing.length === 0) return;
-
-  const choice = await window.showInformationMessage(
-    "Enable chezmoi templated file associations? (.tmpl/.sh.tmpl/.zsh.tmpl/.ps1.tmpl)",
-    "Yes",
-    "No"
-  );
-  if (choice !== "Yes") return;
-
-  await cfg.update(
-    "associations",
-    { ...current, ...ASSOCIATIONS },
-    ConfigurationTarget.Global
-  );
-  window.showInformationMessage("Added chezmoi file associations. Reload to apply.");
-}
-
-export function deactivate() {}
-```
-
-`package.json` に **起動トリガ** を追加:
-```jsonc
+```json
 {
-  // ...
-  "main": "./out/extension.js",
-  "activationEvents": ["onStartupFinished"]
+  "contributes": {
+    "languages": [
+      {
+        "id": "chezmoi-tmpl",
+        "aliases": ["Chezmoi Template", "chezmoi-tmpl"],
+        "extensions": [".tmpl"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "chezmoi-sh-tmpl",
+        "aliases": ["Chezmoi Shell Template", "chezmoi-sh-tmpl"],
+        "extensions": [".sh.tmpl"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "chezmoi-zsh-tmpl",
+        "aliases": ["Chezmoi Zsh Template", "chezmoi-zsh-tmpl"],
+        "extensions": [".zsh.tmpl"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "chezmoi-ps1-tmpl",
+        "aliases": ["Chezmoi PowerShell Template", "chezmoi-ps1-tmpl"],
+        "extensions": [".ps1.tmpl"],
+        "configuration": "./language-configuration.json"
+      }
+    ]
+  }
+}
+```
+
+### Language Configuration File
+
+Create `language-configuration.json`:
+
+```json
+{
+  "comments": {
+    "lineComment": "#",
+    "blockComment": ["/*", "*/"]
+  },
+  "brackets": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"]
+  ],
+  "autoClosingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["\"", "\""],
+    ["'", "'"]
+  ],
+  "surroundingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["\"", "\""],
+    ["'", "'"]
+  ]
 }
 ```
 
 ---
 
-## 4. Injection Grammar（Go Template を注入）
-1) フォルダ作成:
+## 5. Grammar Injection
+
+### Create Syntax Directory
 ```bash
 mkdir -p syntaxes
 ```
 
-2) `syntaxes/chezmoi-templating.injection.tmLanguage.json` を**新規作成**:
+### Base Language Grammars
 
+Create individual grammar files for each template type:
+
+**`syntaxes/chezmoi-tmpl.tmLanguage.json`**:
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vscode/master/extensions/theme-defaults/syntaxes/tmLanguage.schema.json",
+  "name": "Chezmoi Template",
+  "scopeName": "text.plain.chezmoi",
+  "patterns": [
+    { "include": "text.plain" }
+  ]
+}
+```
+
+**`syntaxes/chezmoi-sh-tmpl.tmLanguage.json`**:
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vscode/master/extensions/theme-defaults/syntaxes/tmLanguage.schema.json",
+  "name": "Chezmoi Shell Template",
+  "scopeName": "source.shell.chezmoi",
+  "patterns": [
+    { "include": "source.shell" }
+  ]
+}
+```
+
+### Injection Grammar
+
+**`syntaxes/chezmoi-templating.injection.tmLanguage.json`**:
 ```json
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vscode/master/extensions/theme-defaults/syntaxes/tmLanguage.schema.json",
   "scopeName": "chezmoi.templating.injection",
-  "injectionSelector": "L:source.shell -comment -string, L:source.powershell -comment -string, L:text.plain -comment -string",
+  "injectionSelector": "L:source.shell -comment -string, L:source.powershell -comment -string, L:text.plain -comment -string, L:text -comment -string",
   "patterns": [
     {
       "begin": "\\{\\{\\-?",
@@ -126,24 +208,31 @@ mkdir -p syntaxes
 }
 ```
 
-> `{{ ... }}`（`{{-`/`-}}` 含む）内部を **Go Template** としてトークナイズ。  
-> コメントや文字列中の誤検出を避けるため `-comment -string` を指定。  
-> **Go Template 拡張**のスコープは `source.go-template` を想定。
+### Grammar Registration
 
-3) `package.json` の **grammars** に登録（注入先のスコープを指定）:
+Add to `package.json`:
 
-```jsonc
+```json
 {
-  // ...
   "contributes": {
     "grammars": [
+      {
+        "language": "chezmoi-tmpl",
+        "scopeName": "text.plain.chezmoi",
+        "path": "./syntaxes/chezmoi-tmpl.tmLanguage.json"
+      },
+      {
+        "language": "chezmoi-sh-tmpl",
+        "scopeName": "source.shell.chezmoi",
+        "path": "./syntaxes/chezmoi-sh-tmpl.tmLanguage.json"
+      },
       {
         "scopeName": "chezmoi.templating.injection",
         "path": "./syntaxes/chezmoi-templating.injection.tmLanguage.json",
         "injectTo": [
-          "source.shell",
-          "source.powershell",
-          "text.plain"
+          "source.shell.chezmoi",
+          "source.powershell.chezmoi",
+          "text.plain.chezmoi"
         ],
         "embeddedLanguages": {
           "meta.embedded.block.go-template": "go-template"
@@ -154,67 +243,67 @@ mkdir -p syntaxes
 }
 ```
 
-> `embeddedLanguages` は括弧対応などの言語機能ヒント用（`go-template` 言語IDを使用）。
-
 ---
 
-## 5. メタデータ整備（Marketplace 用）
-`package.json` の必須項目を調整:
+## 6. File Associations
 
-```jsonc
-{
-  "name": "chezmoi-template-syntax",
-  "displayName": "Chezmoi Template Syntax",
-  "publisher": "YOUR_PUBLISHER_ID",
-  "version": "0.1.0",
-  "engines": { "vscode": "^1.90.0" },
-  "description": "Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl): base language + Go Template injection",
-  "categories": ["Programming Languages"],
-  "license": "MIT",
-  "repository": { "type": "git", "url": "https://github.com/YOUR_REPO/chezmoi-template-syntax.git" },
-  "bugs": { "url": "https://github.com/YOUR_REPO/chezmoi-template-syntax/issues" },
-  "homepage": "https://github.com/YOUR_REPO/chezmoi-template-syntax#readme",
-  "activationEvents": ["onStartupFinished"],
-  "main": "./out/extension.js",
-  "extensionDependencies": ["jinliming2.vscode-go-template"],
-  "contributes": {
-    "grammars": [
-      {
-        "scopeName": "chezmoi.templating.injection",
-        "path": "./syntaxes/chezmoi-templating.injection.tmLanguage.json",
-        "injectTo": ["source.shell", "source.powershell", "text.plain"],
-        "embeddedLanguages": { "meta.embedded.block.go-template": "go-template" }
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "package": "vsce package",
-    "publish": "vsce publish"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.90.0",
-    "typescript": "^5.6.0",
-    "vsce": "^3.0.0"
-  }
+### Extension Logic
+
+The extension prompts users on first activation to add file associations. This ensures proper language service integration.
+
+**`src/extension.ts`**:
+```typescript
+import { ConfigurationTarget, ExtensionContext, window, workspace } from "vscode";
+
+const ASSOCIATIONS: Record<string, string> = {
+  "*.sh.tmpl": "chezmoi-sh-tmpl",
+  "*.zsh.tmpl": "chezmoi-zsh-tmpl",
+  "*.ps1.tmpl": "chezmoi-ps1-tmpl",
+  "*.tmpl": "chezmoi-tmpl"
+};
+
+export async function activate(ctx: ExtensionContext) {
+  const cfg = workspace.getConfiguration("files");
+  const current = (cfg.get<Record<string, string>>("associations") ?? {});
+  const missing = Object.entries(ASSOCIATIONS).filter(([pattern, language]) => current[pattern] !== language);
+
+  if (missing.length === 0) return;
+
+  const choice = await window.showInformationMessage(
+    "Enable chezmoi templated file associations? (.tmpl/.sh.tmpl/.zsh.tmpl/.ps1.tmpl)",
+    "Yes",
+    "No"
+  );
+
+  if (choice !== "Yes") return;
+
+  await cfg.update(
+    "associations",
+    { ...current, ...ASSOCIATIONS },
+    ConfigurationTarget.Global
+  );
+
+  window.showInformationMessage("Added chezmoi file associations. Reload to apply.");
 }
+
+export function deactivate() {}
 ```
 
-`README.md` には対象拡張子／スクリーンショット／既知の制約（例：二重LSP不可）を明記。
-
 ---
 
-## 6. ビルド＆デバッグ
+## 7. Testing and Debugging
+
+### Compilation and Testing
 ```bash
 npm run compile
-# VS Codeでフォルダを開き F5 → Extension Development Host が開く
+npm test
 ```
 
-**動作テスト用ファイル例**（ルートに作成）:
+### Test Files
 
-`test.sh.tmpl`
+Example test files are provided in `test/fixtures/`:
+
+**`test.sh.tmpl`**:
 ```bash
 #!/bin/sh
 echo "User: {{ .username }} Host: {{ .chezmoi.hostname }}"
@@ -225,59 +314,70 @@ echo "not Linux"
 {{ end }}
 ```
 
-`test.ps1.tmpl`
-```powershell
-Write-Host "User: {{ .username }} Host: {{ .chezmoi.hostname }}"
-{{ if eq .chezmoi.os "windows" -}}
-Write-Host "on Windows"
-{{- end }}
-```
+### Scope Verification
 
-`test.tmpl`
-```
-Hello, {{ .name | default "world" }}!
-```
+Use **Developer: Inspect Editor Tokens and Scopes** to verify that `{{ if ... }}` expressions have:
+- `meta.embedded.block.go-template`
+- `source.go-template` scopes
 
-**Scope確認**: `Developer: Inspect Editor Tokens and Scopes`  
-→ `{{ if ... }}` 内に `meta.embedded.block.go-template` / `source.go-template` が付与されていればOK。
+### Debug Mode
+
+1. Open project in VS Code
+2. Press `F5` to launch Extension Development Host
+3. Open test files to verify syntax highlighting
 
 ---
 
-## 7. パッケージング＆公開
-1) **Publisher 作成**（初回のみ）  
-   - https://marketplace.visualstudio.com/manage で Publisher を作成  
-   - Azure DevOps の **PAT**（Marketplace > Manage）を発行  
-   - ログイン:
-     ```bash
-     vsce login YOUR_PUBLISHER_ID
-     # -> PAT を貼り付け
-     ```
+## 8. Packaging and Publishing
 
-2) **VSIX 作成（任意のローカル検証）**
-   ```bash
-   npm run package
-   # 生成: chezmoi-template-syntax-0.1.0.vsix
-   # ローカル導入: code --install-extension ./chezmoi-template-syntax-0.1.0.vsix
-   ```
+### Local VSIX Creation
+```bash
+npm run package
+# Generates: chezmoi-template-syntax-0.1.0.vsix
+# Local installation: code --install-extension ./chezmoi-template-syntax-0.1.0.vsix
+```
 
-3) **Marketplace 公開**
+### Marketplace Publishing
+
+1. **Create Publisher** (first time only):
+   - Visit https://marketplace.visualstudio.com/manage
+   - Create Publisher account
+   - Generate Azure DevOps PAT (Personal Access Token)
+
+2. **Login and Publish**:
    ```bash
+   vsce login YOUR_PUBLISHER_ID
+   # Paste PAT when prompted
    npm run publish
-   # 以後の更新: 版数を上げて再度 publish（例: vsce publish minor/major も可）
    ```
 
 ---
 
-## 8. メンテナンスポイント
-- **対象拡張子の追加**: `ASSOCIATIONS` と `injectTo` を適宜拡張。
-- **zsh 専用文法を使いたい**: 別の zsh 拡張を入れて `.zsh.tmpl` を `zsh` に紐づけ、`injectTo` に `source.zsh` を追加。
-- **テンプレコメント**（`{{/* ... */}}`）などは Go Template 側が面倒を見る。足りなければ Injection に追加パターンを追記。
-- **限界**: 同一バッファへの**二重LSP適用は不可**。必要ならテンプレ評価結果を別バッファで開いて LSP を当てる運用を推奨。
+## 9. Maintenance and Extensions
 
----
+### Adding New File Types
 
-## 付録: chezmoi テンプレの最小仕様メモ
-- 構文: `{{ ... }}`、空白トリム `{{-` / `-}}`  
-- 制御: `if` / `else if` / `else` / `end`、`range`、`with`、`define` / `template` など（Go `text/template`）  
-- 関数: **Sprig** 全般 + **chezmoi 独自関数**（例：パスワードマネージャ連携、`.chezmoi.os` 等のデータ）  
-- 実機検証: `chezmoi execute-template` でプレビュー可能
+1. Add language definition to `package.json`
+2. Create corresponding grammar file in `syntaxes/`
+3. Update injection targets in `chezmoi-templating.injection.tmLanguage.json`
+4. Update ASSOCIATIONS in `src/extension.ts`
+
+### Architecture Benefits
+
+- **Reliability**: Explicit language definitions prevent scope conflicts
+- **Consistency**: Custom scopes ensure predictable injection behavior
+- **Extensibility**: Easy to add new template types
+- **Performance**: Minimal runtime overhead
+
+### Known Limitations
+
+- **Dual LSP**: Same buffer cannot have multiple LSP servers
+- **Comments/Strings**: Template expressions inside comments/strings are intentionally not highlighted
+- **Scope Specificity**: Custom scopes may not integrate with all third-party extensions
+
+### Chezmoi Template Specification
+
+- **Syntax**: `{{ ... }}`, whitespace trimming `{{-` / `-}}`
+- **Control**: `if`/`else if`/`else`/`end`, `range`, `with`, `define`/`template` (Go `text/template`)
+- **Functions**: **Sprig** library + **chezmoi-specific functions** (password managers, `.chezmoi.os` data, etc.)
+- **Testing**: Use `chezmoi execute-template` for preview
