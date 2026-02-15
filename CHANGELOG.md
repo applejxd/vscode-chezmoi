@@ -4,6 +4,13 @@ All notable changes to the "chezmoi-template-syntax" extension will be documente
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [Unreleased]
+
+### Added
+- Support for `.py.tmpl` file extension with dedicated `chezmoi-py-tmpl` language
+- Python grammar scope `source.python.chezmoi` and Go Template injection support for Python templates
+- File association mapping for `*.py.tmpl` and test fixture coverage
+
 ## [0.1.0] - 2025-01-28
 
 ### Added

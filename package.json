@@ -1,7 +1,7 @@
 {
   "name": "chezmoi-template-syntax",
   "displayName": "Chezmoi Template Syntax",
-  "description": "Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl): base language + Go Template injection",
+  "description": "Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl, .py.tmpl): base language + Go Template injection",
   "version": "0.1.0",
   "publisher": "applejxd",
   "engines": {
@@ -16,7 +16,8 @@
     "go-template",
     "syntax-highlighting",
     "shell",
-    "powershell"
+    "powershell",
+    "python"
   ],
   "license": "MIT",
   "repository": {
@@ -27,7 +28,9 @@
     "url": "https://github.com/applejxd/chezmoi-template-syntax/issues"
   },
   "homepage": "https://github.com/applejxd/chezmoi-template-syntax#readme",
-  "activationEvents": ["onStartupFinished"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "extensionDependencies": [
     "jinliming2.vscode-go-template"
@@ -36,26 +39,57 @@
     "languages": [
       {
         "id": "chezmoi-tmpl",
-        "aliases": ["Chezmoi Template", "chezmoi-tmpl"],
-        "extensions": [".tmpl"],
+        "aliases": [
+          "Chezmoi Template",
+          "chezmoi-tmpl"
+        ],
+        "extensions": [
+          ".tmpl"
+        ],
         "configuration": "./language-configuration.json"
       },
       {
         "id": "chezmoi-sh-tmpl",
-        "aliases": ["Chezmoi Shell Template", "chezmoi-sh-tmpl"],
-        "extensions": [".sh.tmpl"],
+        "aliases": [
+          "Chezmoi Shell Template",
+          "chezmoi-sh-tmpl"
+        ],
+        "extensions": [
+          ".sh.tmpl"
+        ],
         "configuration": "./language-configuration.json"
       },
       {
         "id": "chezmoi-zsh-tmpl",
-        "aliases": ["Chezmoi Zsh Template", "chezmoi-zsh-tmpl"],
-        "extensions": [".zsh.tmpl"],
+        "aliases": [
+          "Chezmoi Zsh Template",
+          "chezmoi-zsh-tmpl"
+        ],
+        "extensions": [
+          ".zsh.tmpl"
+        ],
         "configuration": "./language-configuration.json"
       },
       {
         "id": "chezmoi-ps1-tmpl",
-        "aliases": ["Chezmoi PowerShell Template", "chezmoi-ps1-tmpl"],
-        "extensions": [".ps1.tmpl"],
+        "aliases": [
+          "Chezmoi PowerShell Template",
+          "chezmoi-ps1-tmpl"
+        ],
+        "extensions": [
+          ".ps1.tmpl"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "chezmoi-py-tmpl",
+        "aliases": [
+          "Chezmoi Python Template",
+          "chezmoi-py-tmpl"
+        ],
+        "extensions": [
+          ".py.tmpl"
+        ],
         "configuration": "./language-configuration.json"
       }
     ],
@@ -81,11 +115,17 @@
         "path": "./syntaxes/chezmoi-ps1-tmpl.tmLanguage.json"
       },
       {
+        "language": "chezmoi-py-tmpl",
+        "scopeName": "source.python.chezmoi",
+        "path": "./syntaxes/chezmoi-py-tmpl.tmLanguage.json"
+      },
+      {
         "scopeName": "chezmoi.templating.injection",
         "path": "./syntaxes/chezmoi-templating.injection.tmLanguage.json",
         "injectTo": [
           "source.shell.chezmoi",
           "source.powershell.chezmoi",
+          "source.python.chezmoi",
           "text.plain.chezmoi"
         ],
         "embeddedLanguages": {
@@ -105,15 +145,16 @@
     "publish": "vsce publish"
   },
   "devDependencies": {
-    "@types/vscode": "^1.90.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
+    "@types/vscode": "^1.90.0",
     "@typescript-eslint/eslint-plugin": "^8.42.0",
     "@typescript-eslint/parser": "^8.42.0",
-    "eslint": "^9.34.0",
-    "typescript": "^5.6.0",
     "@vscode/test-cli": "^0.0.11",
     "@vscode/test-electron": "^2.5.2",
-    "@vscode/vsce": "^3.0.0"
+    "@vscode/vsce": "^3.0.0",
+    "eslint": "^9.34.0",
+    "markdownlint": "^0.40.0",
+    "typescript": "^5.6.0"
   }
 }

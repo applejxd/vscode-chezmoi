@@ -2,7 +2,7 @@
 
 This document provides a comprehensive guide for building and implementing the VS Code extension for chezmoi template syntax highlighting.
 
-**Target Extensions**: `.tmpl`, `.sh.tmpl`, `.zsh.tmpl`, `.ps1.tmpl`
+**Target Extensions**: `.tmpl`, `.sh.tmpl`, `.zsh.tmpl`, `.ps1.tmpl`, `.py.tmpl`
 **Purpose**: Simultaneously apply **Go Template** syntax highlighting (chezmoi-compliant) to base languages (text/shell/powershell).
 
 ---
@@ -40,7 +40,7 @@ yo code
 # Select "New Extension (TypeScript)"
 # Name: chezmoi-template-syntax
 # Identifier: chezmoi-template-syntax
-# Description: Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl)
+# Description: Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl, .py.tmpl)
 cd chezmoi-template-syntax
 npm install
 ```
@@ -54,6 +54,7 @@ The implemented solution uses **dedicated language definitions** instead of rely
 - `chezmoi-sh-tmpl` → `source.shell.chezmoi`
 - `chezmoi-zsh-tmpl` → `source.shell.chezmoi`
 - `chezmoi-ps1-tmpl` → `source.powershell.chezmoi`
+- `chezmoi-py-tmpl` → `source.python.chezmoi`
 
 ---
 
@@ -105,6 +106,12 @@ Add language definitions to enable explicit file type recognition:
         "id": "chezmoi-ps1-tmpl",
         "aliases": ["Chezmoi PowerShell Template", "chezmoi-ps1-tmpl"],
         "extensions": [".ps1.tmpl"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "chezmoi-py-tmpl",
+        "aliases": ["Chezmoi Python Template", "chezmoi-py-tmpl"],
+        "extensions": [".py.tmpl"],
         "configuration": "./language-configuration.json"
       }
     ]
@@ -188,7 +195,7 @@ Create individual grammar files for each template type:
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vscode/master/extensions/theme-defaults/syntaxes/tmLanguage.schema.json",
   "scopeName": "chezmoi.templating.injection",
-  "injectionSelector": "L:source.shell -comment -string, L:source.powershell -comment -string, L:text.plain -comment -string, L:text -comment -string",
+  "injectionSelector": "L:source.shell -comment -string, L:source.powershell -comment -string, L:source.python -comment -string, L:text.plain -comment -string, L:text -comment -string",
   "patterns": [
     {
       "begin": "\\{\\{\\-?",
@@ -232,6 +239,7 @@ Add to `package.json`:
         "injectTo": [
           "source.shell.chezmoi",
           "source.powershell.chezmoi",
+          "source.python.chezmoi",
           "text.plain.chezmoi"
         ],
         "embeddedLanguages": {
@@ -259,6 +267,7 @@ const ASSOCIATIONS: Record<string, string> = {
   "*.sh.tmpl": "chezmoi-sh-tmpl",
   "*.zsh.tmpl": "chezmoi-zsh-tmpl",
   "*.ps1.tmpl": "chezmoi-ps1-tmpl",
+  "*.py.tmpl": "chezmoi-py-tmpl",
   "*.tmpl": "chezmoi-tmpl"
 };
 
@@ -270,7 +279,7 @@ export async function activate(ctx: ExtensionContext) {
   if (missing.length === 0) return;
 
   const choice = await window.showInformationMessage(
-    "Enable chezmoi templated file associations? (.tmpl/.sh.tmpl/.zsh.tmpl/.ps1.tmpl)",
+    "Enable chezmoi templated file associations? (.tmpl/.sh.tmpl/.zsh.tmpl/.ps1.tmpl/.py.tmpl)",
     "Yes",
     "No"
   );
