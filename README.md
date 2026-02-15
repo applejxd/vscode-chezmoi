@@ -11,7 +11,7 @@ A VS Code extension that provides comprehensive syntax highlighting for [chezmoi
 - [Installation](#installation)
 - [How It Works](#how-it-works)
 - [Development](#development)
-- [Testing](#testing)
+- [Testing](#-testing)
 - [Contributing](#contributing)
 - [Release Notes](#release-notes)
 
@@ -33,7 +33,7 @@ This extension solves the problem of syntax highlighting for chezmoi template fi
 ## Supported File Types
 
 | Extension | Base Language | Use Case | Example |
-|-----------|---------------|----------|---------|
+| --------- | ------------- | -------- | --------- |
 | `*.tmpl` | Plain Text | Generic configuration files | `config.yaml.tmpl` |
 | `*.sh.tmpl` | Shell Script | Bash/shell scripts | `install.sh.tmpl` |
 | `*.zsh.tmpl` | Shell Script | Zsh configuration | `.zshrc.tmpl` |
@@ -57,7 +57,7 @@ export PATH="$PATH:{{ .custom_path }}"
 
 ### 🏗️ Core Components
 
-```
+```txt
 chezmoi-syntax/
 ├── 📁 src/                          # TypeScript source code
 │   ├── extension.ts                 # Main extension logic
@@ -82,6 +82,7 @@ chezmoi-syntax/
    - `chezmoi-ps1-tmpl` → `source.powershell.chezmoi` scope
 
 2. **Grammar Injection**: Injects Go Template syntax into base language scopes
+
    ```json
    "injectTo": [
      "source.shell.chezmoi",
@@ -91,6 +92,7 @@ chezmoi-syntax/
    ```
 
 3. **File Association**: Runtime configuration of VS Code settings
+
    ```typescript
    "*.tmpl": "chezmoi-tmpl",
    "*.sh.tmpl": "chezmoi-sh-tmpl"
@@ -101,12 +103,14 @@ chezmoi-syntax/
 ### From VSIX Package
 
 1. Build the extension:
+
    ```bash
    npm install
    npm run package
    ```
 
 2. Install in VS Code:
+
    ```bash
    code --install-extension chezmoi-template-syntax-0.1.0.vsix
    ```
@@ -114,6 +118,7 @@ chezmoi-syntax/
 ### Development Installation
 
 1. Clone and setup:
+
    ```bash
    git clone https://github.com/applejxd/chezmoi-template-syntax.git
    cd chezmoi-template-syntax
@@ -138,6 +143,7 @@ chezmoi-syntax/
 ```
 
 This ensures template expressions are only highlighted when they're NOT inside:
+
 - Comments (`# {{ .not_highlighted }}`)
 - String literals (`"{{ .not_highlighted }}"`)
 
@@ -169,6 +175,7 @@ The extension includes comprehensive tests:
 - **Language Contributions**: Validates language registration
 
 Run tests:
+
 ```bash
 npm test
 ```
@@ -176,6 +183,7 @@ npm test
 ### 📁 Test Files
 
 Example test files are provided in `test/fixtures/`:
+
 - `test.tmpl` - Generic template
 - `test.sh.tmpl` - Shell script template
 - `test.ps1.tmpl` - PowerShell template
@@ -186,6 +194,7 @@ Example test files are provided in `test/fixtures/`:
 ### 🔧 Adding New File Types
 
 1. Add language definition to `package.json`:
+
    ```json
    {
      "id": "chezmoi-new-tmpl",
@@ -218,6 +227,7 @@ Example test files are provided in `test/fixtures/`:
 - ✅ Complete documentation
 
 **Technical Highlights:**
+
 - Custom language definitions with dedicated scopes
 - Grammar injection excluding comments/strings
 - Runtime VS Code configuration
