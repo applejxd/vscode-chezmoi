@@ -1,0 +1,7 @@
+title = "chezmoi"
+username = "{{ .username }}"
+
+{{- if eq .chezmoi.os "linux" }}
+[linux]
+enabled = true
+{{- end }}

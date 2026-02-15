@@ -6,10 +6,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-02-15
+
 ### Added
 - Support for `.py.tmpl` file extension with dedicated `chezmoi-py-tmpl` language
 - Python grammar scope `source.python.chezmoi` and Go Template injection support for Python templates
-- File association mapping for `*.py.tmpl` and test fixture coverage
+- Support for `.toml.tmpl` file extension with dedicated `chezmoi-toml-tmpl` language
+- TOML grammar scope `source.toml.chezmoi` and Go Template injection support for TOML templates
+- File association mapping for `*.py.tmpl` and `*.toml.tmpl` with test fixture coverage
+- ADR-003 documenting the implementation plan for `*.toml.tmpl` support and patch version bump policy
 
 ## [0.1.0] - 2025-01-28
 

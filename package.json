@@ -1,8 +1,8 @@
 {
   "name": "chezmoi-template-syntax",
   "displayName": "Chezmoi Template Syntax",
-  "description": "Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl, .py.tmpl): base language + Go Template injection",
-  "version": "0.1.0",
+  "description": "Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl, .py.tmpl, .toml.tmpl): base language + Go Template injection",
+  "version": "0.1.1",
   "publisher": "applejxd",
   "engines": {
     "vscode": "^1.90.0"
@@ -17,7 +17,8 @@
     "syntax-highlighting",
     "shell",
     "powershell",
-    "python"
+    "python",
+    "toml"
   ],
   "license": "MIT",
   "repository": {
@@ -91,6 +92,17 @@
           ".py.tmpl"
         ],
         "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "chezmoi-toml-tmpl",
+        "aliases": [
+          "Chezmoi TOML Template",
+          "chezmoi-toml-tmpl"
+        ],
+        "extensions": [
+          ".toml.tmpl"
+        ],
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
@@ -120,12 +132,18 @@
         "path": "./syntaxes/chezmoi-py-tmpl.tmLanguage.json"
       },
       {
+        "language": "chezmoi-toml-tmpl",
+        "scopeName": "source.toml.chezmoi",
+        "path": "./syntaxes/chezmoi-toml-tmpl.tmLanguage.json"
+      },
+      {
         "scopeName": "chezmoi.templating.injection",
         "path": "./syntaxes/chezmoi-templating.injection.tmLanguage.json",
         "injectTo": [
           "source.shell.chezmoi",
           "source.powershell.chezmoi",
           "source.python.chezmoi",
+          "source.toml.chezmoi",
           "text.plain.chezmoi"
         ],
         "embeddedLanguages": {

@@ -25,7 +25,7 @@ This extension solves the problem of syntax highlighting for chezmoi template fi
 ## Features
 
 - **🎨 Dual Syntax Highlighting**: Seamlessly combines base language syntax (shell, PowerShell, plain text) with Go Template syntax
-- **📁 Multi-Format Support**: Supports `.tmpl`, `.sh.tmpl`, `.zsh.tmpl`, `.ps1.tmpl`, `.py.tmpl` files
+- **📁 Multi-Format Support**: Supports `.tmpl`, `.sh.tmpl`, `.zsh.tmpl`, `.ps1.tmpl`, `.py.tmpl`, `.toml.tmpl` files
 - **🔧 Automatic Configuration**: Configures VS Code file associations on first activation
 - **🔗 Dependency Management**: Automatically installs and leverages the Go Template extension
 - **🎯 Intelligent Injection**: Only highlights template expressions outside of comments and strings
@@ -39,6 +39,7 @@ This extension solves the problem of syntax highlighting for chezmoi template fi
 | `*.zsh.tmpl` | Shell Script | Zsh configuration | `.zshrc.tmpl` |
 | `*.ps1.tmpl` | PowerShell | Windows PowerShell scripts | `setup.ps1.tmpl` |
 | `*.py.tmpl` | Python | Python scripts | `script.py.tmpl` |
+| `*.toml.tmpl` | TOML | TOML configuration files | `config.toml.tmpl` |
 
 ### Example Template File
 
@@ -69,7 +70,8 @@ chezmoi-syntax/
 │   ├── chezmoi-sh-tmpl.tmLanguage.json               # Shell grammar
 │   ├── chezmoi-zsh-tmpl.tmLanguage.json              # Zsh grammar
 │   ├── chezmoi-ps1-tmpl.tmLanguage.json              # PowerShell grammar
-│   └── chezmoi-py-tmpl.tmLanguage.json               # Python grammar
+│   ├── chezmoi-py-tmpl.tmLanguage.json               # Python grammar
+│   └── chezmoi-toml-tmpl.tmLanguage.json             # TOML grammar
 ├── 📁 test/fixtures/                # Test template files
 ├── 📁 doc/                          # Documentation
 ├── package.json                     # Extension manifest
@@ -83,6 +85,7 @@ chezmoi-syntax/
    - `chezmoi-sh-tmpl` → `source.shell.chezmoi` scope
    - `chezmoi-ps1-tmpl` → `source.powershell.chezmoi` scope
    - `chezmoi-py-tmpl` → `source.python.chezmoi` scope
+   - `chezmoi-toml-tmpl` → `source.toml.chezmoi` scope
 
 2. **Grammar Injection**: Injects Go Template syntax into base language scopes
 
@@ -91,6 +94,7 @@ chezmoi-syntax/
      "source.shell.chezmoi",
      "source.powershell.chezmoi",
      "source.python.chezmoi",
+     "source.toml.chezmoi",
      "text.plain.chezmoi"
    ]
    ```
@@ -100,7 +104,8 @@ chezmoi-syntax/
    ```typescript
    "*.tmpl": "chezmoi-tmpl",
    "*.sh.tmpl": "chezmoi-sh-tmpl",
-   "*.py.tmpl": "chezmoi-py-tmpl"
+   "*.py.tmpl": "chezmoi-py-tmpl",
+   "*.toml.tmpl": "chezmoi-toml-tmpl"
    ```
 
 ## Installation
@@ -117,7 +122,7 @@ chezmoi-syntax/
 2. Install in VS Code:
 
    ```bash
-   code --install-extension chezmoi-template-syntax-0.1.0.vsix
+   code --install-extension chezmoi-template-syntax-0.1.*.vsix
    ```
 
 ### Development Installation
@@ -144,7 +149,7 @@ chezmoi-syntax/
 ### 🔍 Injection Selector Logic
 
 ```json
-"injectionSelector": "L:source.shell -comment -string, L:source.powershell -comment -string, L:source.python -comment -string, L:text.plain -comment -string"
+"injectionSelector": "L:source.shell -comment -string, L:source.powershell -comment -string, L:source.python -comment -string, L:source.toml -comment -string, L:text.plain -comment -string"
 ```
 
 This ensures template expressions are only highlighted when they're NOT inside:
@@ -194,6 +199,7 @@ Example test files are provided in `test/fixtures/`:
 - `test.ps1.tmpl` - PowerShell template
 - `test.zsh.tmpl` - Zsh configuration template
 - `test.py.tmpl` - Python template
+- `test.toml.tmpl` - TOML template
 
 ## Contributing
 

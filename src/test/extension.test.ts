@@ -53,6 +53,12 @@ suite('Extension Test Suite', () => {
 		const pyTmplUri = vscode.Uri.file(pyTmplPath);
 		const pyTmplDoc = await vscode.workspace.openTextDocument(pyTmplUri);
 		assert.strictEqual(pyTmplDoc.languageId, 'chezmoi-py-tmpl', 'test.py.tmpl should be recognized as chezmoi-py-tmpl language');
+
+		// Test .toml.tmpl file
+		const tomlTmplPath = path.join(workspaceFolder.uri.fsPath, 'test', 'fixtures', 'test.toml.tmpl');
+		const tomlTmplUri = vscode.Uri.file(tomlTmplPath);
+		const tomlTmplDoc = await vscode.workspace.openTextDocument(tomlTmplUri);
+		assert.strictEqual(tomlTmplDoc.languageId, 'chezmoi-toml-tmpl', 'test.toml.tmpl should be recognized as chezmoi-toml-tmpl language');
 	});
 
 	/**
@@ -74,6 +80,7 @@ suite('Extension Test Suite', () => {
 			assert.ok(langs.includes('chezmoi-zsh-tmpl'), 'chezmoi-zsh-tmpl language should be contributed');
 			assert.ok(langs.includes('chezmoi-ps1-tmpl'), 'chezmoi-ps1-tmpl language should be contributed');
 			assert.ok(langs.includes('chezmoi-py-tmpl'), 'chezmoi-py-tmpl language should be contributed');
+			assert.ok(langs.includes('chezmoi-toml-tmpl'), 'chezmoi-toml-tmpl language should be contributed');
 		});
 	});
 });

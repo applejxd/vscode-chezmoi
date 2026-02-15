@@ -11,6 +11,7 @@ const ASSOCIATIONS: Record<string, string> = {
   "*.zsh.tmpl": "chezmoi-zsh-tmpl", // Zsh templates with chezmoi support
   "*.ps1.tmpl": "chezmoi-ps1-tmpl", // PowerShell script templates with chezmoi support
   "*.py.tmpl": "chezmoi-py-tmpl",   // Python templates with chezmoi support
+  "*.toml.tmpl": "chezmoi-toml-tmpl", // TOML templates with chezmoi support
   "*.tmpl": "chezmoi-tmpl"          // Generic templates with chezmoi support
 };
 
@@ -43,7 +44,7 @@ export async function activate(ctx: ExtensionContext) {
 
   // Prompt user to enable the file associations
   const choice = await window.showInformationMessage(
-    "Enable chezmoi templated file associations? (.tmpl/.sh.tmpl/.zsh.tmpl/.ps1.tmpl/.py.tmpl)",
+    "Enable chezmoi templated file associations? (.tmpl/.sh.tmpl/.zsh.tmpl/.ps1.tmpl/.py.tmpl/.toml.tmpl)",
     "Yes",
     "No"
   );
