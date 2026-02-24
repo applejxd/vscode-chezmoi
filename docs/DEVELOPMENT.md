@@ -24,13 +24,17 @@ chezmoi-syntax/
 │   ├── 📄 chezmoi-tmpl.tmLanguage.json                  # Plain text base grammar
 │   ├── 📄 chezmoi-sh-tmpl.tmLanguage.json               # Shell base grammar
 │   ├── 📄 chezmoi-zsh-tmpl.tmLanguage.json              # Zsh base grammar
-│   └── 📄 chezmoi-ps1-tmpl.tmLanguage.json              # PowerShell base grammar
+│   ├── 📄 chezmoi-ps1-tmpl.tmLanguage.json              # PowerShell base grammar
+│   ├── 📄 chezmoi-py-tmpl.tmLanguage.json               # Python base grammar
+│   └── 📄 chezmoi-toml-tmpl.tmLanguage.json             # TOML base grammar
 │
 ├── 📁 test/fixtures/                      # Test template files
 │   ├── 📄 test.tmpl                       # Generic template example
 │   ├── 📄 test.sh.tmpl                    # Shell script template
 │   ├── 📄 test.zsh.tmpl                   # Zsh script template
-│   └── 📄 test.ps1.tmpl                   # PowerShell script template
+│   ├── 📄 test.ps1.tmpl                   # PowerShell script template
+│   ├── 📄 test.py.tmpl                    # Python script template
+│   └── 📄 test.toml.tmpl                  # TOML template
 │
 ├── 📁 doc/                                # Documentation
 │   ├── 📄 adr-001-chezmoi-syntax-highlighting-architecture.md
@@ -51,10 +55,12 @@ The extension uses VS Code's language contribution system to define custom langu
 
 ```typescript
 // Custom Language IDs
-"chezmoi-tmpl"      → "text.plain.chezmoi"     // Generic templates
-"chezmoi-sh-tmpl"   → "source.shell.chezmoi"   // Shell templates
-"chezmoi-zsh-tmpl"  → "source.shell.chezmoi"   // Zsh templates
+"chezmoi-tmpl"      → "text.plain.chezmoi"        // Generic templates
+"chezmoi-sh-tmpl"   → "source.shell.chezmoi"      // Shell templates
+"chezmoi-zsh-tmpl"  → "source.zsh.chezmoi"        // Zsh templates
 "chezmoi-ps1-tmpl"  → "source.powershell.chezmoi" // PowerShell templates
+"chezmoi-py-tmpl"   → "source.python.chezmoi"     // Python templates
+"chezmoi-toml-tmpl" → "source.toml.chezmoi"       // TOML templates
 ```
 
 ### Grammar Injection Pipeline
@@ -195,17 +201,8 @@ suite('Extension Test Suite', () => {
 
 ### Mock Testing
 
-For testing extension APIs:
-```typescript
-import * as vscode from 'vscode';
-
-// Mock workspace configuration
-const mockConfig = {
-  get: jest.fn(),
-  update: jest.fn()
-};
-jest.spyOn(vscode.workspace, 'getConfiguration').mockReturnValue(mockConfig);
-```
+> **Note**: This project uses **Mocha** as its test framework.
+> For mocking VS Code APIs, consider using [sinon](https://sinonjs.org/) or VS Code's built-in test utilities.
 
 ## 🏗️ Adding New Features
 

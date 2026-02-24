@@ -1,4 +1,4 @@
-import { ConfigurationTarget, ExtensionContext, window, workspace } from "vscode";
+import { commands, ConfigurationTarget, ExtensionContext, window, workspace } from "vscode";
 
 /**
  * File associations mapping for chezmoi template files.
@@ -12,6 +12,10 @@ const ASSOCIATIONS: Record<string, string> = {
   "*.ps1.tmpl": "chezmoi-ps1-tmpl", // PowerShell script templates with chezmoi support
   "*.py.tmpl": "chezmoi-py-tmpl",   // Python templates with chezmoi support
   "*.toml.tmpl": "chezmoi-toml-tmpl", // TOML templates with chezmoi support
+  "*.yaml.tmpl": "chezmoi-yaml-tmpl", // YAML templates with chezmoi support
+  "*.yml.tmpl": "chezmoi-yaml-tmpl",  // YAML templates (short extension)
+  "*.json.tmpl": "chezmoi-json-tmpl", // JSON templates with chezmoi support
+  "*.ini.tmpl": "chezmoi-ini-tmpl",   // INI templates with chezmoi support
   "*.tmpl": "chezmoi-tmpl"          // Generic templates with chezmoi support
 };
 
@@ -27,7 +31,7 @@ const ASSOCIATIONS: Record<string, string> = {
  *
  * @param ctx - The extension context provided by VS Code
  */
-export async function activate(ctx: ExtensionContext) {
+export async function activate(_ctx: ExtensionContext) {
   // Get the current files configuration section
   const cfg = workspace.getConfiguration("files");
 
@@ -44,7 +48,7 @@ export async function activate(ctx: ExtensionContext) {
 
   // Prompt user to enable the file associations
   const choice = await window.showInformationMessage(
-    "Enable chezmoi templated file associations? (.tmpl/.sh.tmpl/.zsh.tmpl/.ps1.tmpl/.py.tmpl/.toml.tmpl)",
+    "Enable chezmoi template file associations for .tmpl and related files?",
     "Yes",
     "No"
   );
@@ -56,14 +60,26 @@ export async function activate(ctx: ExtensionContext) {
 
   // Update the global file associations configuration
   // Merge existing associations with our chezmoi template associations
-  await cfg.update(
-    "associations",
-    { ...current, ...ASSOCIATIONS },
-    ConfigurationTarget.Global
-  );
+  try {
+    await cfg.update(
+      "associations",
+      { ...current, ...ASSOCIATIONS },
+      ConfigurationTarget.Global
+    );
 
-  // Notify user that associations have been added
-  window.showInformationMessage("Added chezmoi file associations. Reload to apply.");
+    // Notify user that associations have been added and offer reload
+    const action = await window.showInformationMessage(
+      "Added chezmoi file associations. Reload to apply.",
+      "Reload Now"
+    );
+    if (action === "Reload Now") {
+      await commands.executeCommand("workbench.action.reloadWindow");
+    }
+  } catch (error) {
+    window.showErrorMessage(
+      `Failed to update file associations: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 }
 
 /**

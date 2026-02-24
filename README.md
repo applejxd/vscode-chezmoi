@@ -73,7 +73,7 @@ chezmoi-syntax/
 │   ├── chezmoi-py-tmpl.tmLanguage.json               # Python grammar
 │   └── chezmoi-toml-tmpl.tmLanguage.json             # TOML grammar
 ├── 📁 test/fixtures/                # Test template files
-├── 📁 doc/                          # Documentation
+├── 📁 docs/                         # Documentation
 ├── package.json                     # Extension manifest
 └── language-configuration.json     # Language behavior config
 ```
@@ -221,8 +221,8 @@ Example test files are provided in `test/fixtures/`:
 
 ### 📚 Documentation
 
-- Architecture decisions: `doc/adr-001-chezmoi-syntax-highlighting-architecture.md`
-- Build process: `doc/build_plan.md`
+- Architecture decisions: `docs/ADR/adr-001-chezmoi-syntax-highlighting-architecture.md`
+- Build process: `docs/build_plan.md`
 - API documentation: Generated from TypeScript comments
 
 ## Release Notes

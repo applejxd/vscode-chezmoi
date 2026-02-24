@@ -1,0 +1,8 @@
+; Chezmoi INI template test file
+[user]
+name = {{ .name }}
+email = {{ .email }}
+{{ if .proxy -}}
+[proxy]
+http = {{ .proxy.http }}
+{{- end }}

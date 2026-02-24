@@ -1,86 +1,96 @@
 import * as assert from 'assert';
-import * as vscode from 'vscode';
 import * as path from 'path';
+import * as sinon from 'sinon';
+import * as vscode from 'vscode';
 
 /**
  * Test suite for the Chezmoi Template Syntax extension.
  *
- * This file contains unit tests to verify the extension's functionality.
- * Tests are run using Mocha framework within VS Code's test environment.
+ * Uses parameterized test data and sinon for mocking VS Code APIs.
  */
 
-/**
- * Main test suite for the extension.
- * Groups all tests related to the Chezmoi Template Syntax extension.
- */
+/** Test data mapping fixture files to expected language IDs */
+const FILE_LANGUAGE_MAP: ReadonlyArray<{ readonly file: string; readonly langId: string }> = [
+	{ file: 'test.tmpl', langId: 'chezmoi-tmpl' },
+	{ file: 'test.sh.tmpl', langId: 'chezmoi-sh-tmpl' },
+	{ file: 'test.zsh.tmpl', langId: 'chezmoi-zsh-tmpl' },
+	{ file: 'test.ps1.tmpl', langId: 'chezmoi-ps1-tmpl' },
+	{ file: 'test.py.tmpl', langId: 'chezmoi-py-tmpl' },
+	{ file: 'test.toml.tmpl', langId: 'chezmoi-toml-tmpl' },
+	{ file: 'test.yaml.tmpl', langId: 'chezmoi-yaml-tmpl' },
+	{ file: 'test.json.tmpl', langId: 'chezmoi-json-tmpl' },
+	{ file: 'test.ini.tmpl', langId: 'chezmoi-ini-tmpl' },
+];
+
+const ALL_LANGUAGE_IDS = FILE_LANGUAGE_MAP.map(({ langId }) => langId);
+
 suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
 
-	/**
-	 * Test that chezmoi template files are recognized with correct language IDs
-	 */
-	test('File language association', async () => {
-		// Get the workspace folder
-		const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-		assert.ok(workspaceFolder, 'Workspace folder should be available');
+	suite('File Language Associations', () => {
+		for (const { file, langId } of FILE_LANGUAGE_MAP) {
+			test(`${file} → ${langId}`, async () => {
+				const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+				assert.ok(workspaceFolder, 'Workspace folder should be available');
 
-		// Test .tmpl file
-		const tmplPath = path.join(workspaceFolder.uri.fsPath, 'test', 'fixtures', 'test.tmpl');
-		const tmplUri = vscode.Uri.file(tmplPath);
-		const tmplDoc = await vscode.workspace.openTextDocument(tmplUri);
-		assert.strictEqual(tmplDoc.languageId, 'chezmoi-tmpl', 'test.tmpl should be recognized as chezmoi-tmpl language');
-
-		// Test .sh.tmpl file
-		const shTmplPath = path.join(workspaceFolder.uri.fsPath, 'test', 'fixtures', 'test.sh.tmpl');
-		const shTmplUri = vscode.Uri.file(shTmplPath);
-		const shTmplDoc = await vscode.workspace.openTextDocument(shTmplUri);
-		assert.strictEqual(shTmplDoc.languageId, 'chezmoi-sh-tmpl', 'test.sh.tmpl should be recognized as chezmoi-sh-tmpl language');
-
-		// Test .ps1.tmpl file
-		const ps1TmplPath = path.join(workspaceFolder.uri.fsPath, 'test', 'fixtures', 'test.ps1.tmpl');
-		const ps1TmplUri = vscode.Uri.file(ps1TmplPath);
-		const ps1TmplDoc = await vscode.workspace.openTextDocument(ps1TmplUri);
-		assert.strictEqual(ps1TmplDoc.languageId, 'chezmoi-ps1-tmpl', 'test.ps1.tmpl should be recognized as chezmoi-ps1-tmpl language');
-
-		// Test .zsh.tmpl file
-		const zshTmplPath = path.join(workspaceFolder.uri.fsPath, 'test', 'fixtures', 'test.zsh.tmpl');
-		const zshTmplUri = vscode.Uri.file(zshTmplPath);
-		const zshTmplDoc = await vscode.workspace.openTextDocument(zshTmplUri);
-		assert.strictEqual(zshTmplDoc.languageId, 'chezmoi-zsh-tmpl', 'test.zsh.tmpl should be recognized as chezmoi-zsh-tmpl language');
-
-		// Test .py.tmpl file
-		const pyTmplPath = path.join(workspaceFolder.uri.fsPath, 'test', 'fixtures', 'test.py.tmpl');
-		const pyTmplUri = vscode.Uri.file(pyTmplPath);
-		const pyTmplDoc = await vscode.workspace.openTextDocument(pyTmplUri);
-		assert.strictEqual(pyTmplDoc.languageId, 'chezmoi-py-tmpl', 'test.py.tmpl should be recognized as chezmoi-py-tmpl language');
-
-		// Test .toml.tmpl file
-		const tomlTmplPath = path.join(workspaceFolder.uri.fsPath, 'test', 'fixtures', 'test.toml.tmpl');
-		const tomlTmplUri = vscode.Uri.file(tomlTmplPath);
-		const tomlTmplDoc = await vscode.workspace.openTextDocument(tomlTmplUri);
-		assert.strictEqual(tomlTmplDoc.languageId, 'chezmoi-toml-tmpl', 'test.toml.tmpl should be recognized as chezmoi-toml-tmpl language');
+				const filePath = path.join(workspaceFolder.uri.fsPath, 'test', 'fixtures', file);
+				const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(filePath));
+				assert.strictEqual(doc.languageId, langId, `${file} should map to ${langId}`);
+			});
+		}
 	});
 
-	/**
-	 * Test that extension dependencies are available
-	 */
-	test('Extension dependencies', () => {
-		const goTemplateExt = vscode.extensions.getExtension('jinliming2.vscode-go-template');
-		assert.ok(goTemplateExt, 'Go Template extension should be available as dependency');
+	test('Extension dependencies: Go Template extension', () => {
+		const ext = vscode.extensions.getExtension('jinliming2.vscode-go-template');
+		assert.ok(ext, 'Go Template extension should be available');
 	});
 
-	/**
-	 * Test that the extension contributes the expected languages
-	 */
-	test('Language contributions', () => {
-		const languages = vscode.languages.getLanguages();
-		return languages.then(langs => {
-			assert.ok(langs.includes('chezmoi-tmpl'), 'chezmoi-tmpl language should be contributed');
-			assert.ok(langs.includes('chezmoi-sh-tmpl'), 'chezmoi-sh-tmpl language should be contributed');
-			assert.ok(langs.includes('chezmoi-zsh-tmpl'), 'chezmoi-zsh-tmpl language should be contributed');
-			assert.ok(langs.includes('chezmoi-ps1-tmpl'), 'chezmoi-ps1-tmpl language should be contributed');
-			assert.ok(langs.includes('chezmoi-py-tmpl'), 'chezmoi-py-tmpl language should be contributed');
-			assert.ok(langs.includes('chezmoi-toml-tmpl'), 'chezmoi-toml-tmpl language should be contributed');
+	test('All language IDs are registered', async () => {
+		const langs = await vscode.languages.getLanguages();
+		for (const langId of ALL_LANGUAGE_IDS) {
+			assert.ok(langs.includes(langId), `${langId} should be registered`);
+		}
+	});
+
+	suite('Extension Activation', () => {
+		let sandbox: sinon.SinonSandbox;
+
+		setup(() => {
+			sandbox = sinon.createSandbox();
+		});
+
+		teardown(() => {
+			sandbox.restore();
+		});
+
+		test('Extension is present', () => {
+			const ext = vscode.extensions.getExtension('applejxd.chezmoi-template-syntax');
+			assert.ok(ext, 'Extension should be installed');
+		});
+
+		test('Extension activates successfully', async () => {
+			const ext = vscode.extensions.getExtension('applejxd.chezmoi-template-syntax');
+			assert.ok(ext);
+			if (!ext.isActive) {
+				await ext.activate();
+			}
+			assert.ok(ext.isActive, 'Extension should be active');
+		});
+
+		test('activate() does not throw on re-invocation', async () => {
+			// Stub the info message to prevent UI interaction during test
+			const stub = sandbox.stub(vscode.window, 'showInformationMessage') as sinon.SinonStub;
+			stub.resolves(undefined);
+
+			const { activate } = require('../extension') as typeof import('../extension');
+			await assert.doesNotReject(
+				() => activate({} as vscode.ExtensionContext),
+				'activate() should handle re-invocation gracefully'
+			);
+		});
+
+		test('deactivate() is exported as a function', () => {
+			const ext = require('../extension') as typeof import('../extension');
+			assert.strictEqual(typeof ext.deactivate, 'function');
 		});
 	});
 });

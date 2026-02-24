@@ -1,0 +1,7 @@
+# Chezmoi YAML template test file
+name: {{ .name }}
+settings:
+  theme: {{ .theme | default "dark" }}
+  {{ if .debug -}}
+  debug: true
+  {{- end }}
