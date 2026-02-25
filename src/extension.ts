@@ -46,6 +46,11 @@ export async function activate(_ctx: ExtensionContext) {
     return;
   }
 
+  // In test environments, tests handle the prompt explicitly, or we don't want to block
+  if (_ctx.extensionMode === 3 /* ExtensionMode.Test */) {
+    return;
+  }
+
   // Prompt user to enable the file associations
   const choice = await window.showInformationMessage(
     "Enable chezmoi template file associations for .tmpl and related files?",

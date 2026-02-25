@@ -1,0 +1,71 @@
+
+> vscode-chezmoi@0.1.1 pretest
+> npm run compile && npm run lint
+
+
+> vscode-chezmoi@0.1.1 compile
+> tsc -p ./
+
+
+> vscode-chezmoi@0.1.1 lint
+> eslint src
+
+
+> vscode-chezmoi@0.1.1 test
+> vscode-test
+
+- Resolving version...
+笨・Validated version: 1.109.5
+笨・Found existing install in C:\Users\applejxd\src\chezmoi-syntax\.vscode-test\vscode-win32-x64-archive-1.109.5
+(node:42784) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- Resolving version...
+笨・Validated version: 1.109.5
+笨・Found existing install in C:\Users\applejxd\src\chezmoi-syntax\.vscode-test\vscode-win32-x64-archive-1.109.5
+
+[main 2026-02-25T13:09:00.376Z] update#setState disabled
+[main 2026-02-25T13:09:00.377Z] update#ctor - updates are disabled by the environment
+Started local extension host with pid 39464.
+Loading development extension at c:\Users\applejxd\src\chezmoi-syntax
+[jinliming2.vscode-go-template]: 'configuration.semanticTokenType.description' must be defined and can not be empty
+[jinliming2.vscode-go-template]: 'configuration.semanticTokenType.description' must be defined and can not be empty
+[jinliming2.vscode-go-template]: 'configuration.semanticTokenType.description' must be defined and can not be empty
+[jinliming2.vscode-go-template]: 'configuration.semanticTokenType.description' must be defined and can not be empty
+[jinliming2.vscode-go-template]: 'configuration.semanticTokenType.description' must be defined and can not be empty
+[jinliming2.vscode-go-template]: 'configuration.semanticTokenType.description' must be defined and can not be empty
+[jinliming2.vscode-go-template]: 'configuration.semanticTokenType.description' must be defined and can not be empty
+[jinliming2.vscode-go-template]: 'configuration.semanticTokenType.description' must be defined and can not be empty
+[jinliming2.vscode-go-template]: 'configuration.semanticTokenType.description' must be defined and can not be empty
+MCP Registry configured: https://api.mcp.github.com
+Settings Sync: Account status changed from uninitialized to unavailable
+
+  Extension Test Suite
+    笨・Extension dependencies: Go Template extension
+    笨・All language IDs are registered
+    File Language Associations
+      笨・test.tmpl 竊・chezmoi-tmpl
+      笨・test.sh.tmpl 竊・chezmoi-sh-tmpl
+      笨・test.zsh.tmpl 竊・chezmoi-zsh-tmpl
+      笨・test.ps1.tmpl 竊・chezmoi-ps1-tmpl (111ms)
+      笨・test.py.tmpl 竊・chezmoi-py-tmpl (39ms)
+      笨・test.toml.tmpl 竊・chezmoi-toml-tmpl
+      笨・test.yaml.tmpl 竊・chezmoi-yaml-tmpl
+      笨・test.json.tmpl 竊・chezmoi-json-tmpl
+      笨・test.ini.tmpl 竊・chezmoi-ini-tmpl
+    Extension Activation
+      笨・Extension is present
+      1) Extension activates successfully
+      笨・activate() does not throw on re-invocation
+      笨・deactivate() is exported as a function
+  14 passing (2s)
+  1 failing
+  1) Extension Test Suite
+       Extension Activation
+         Extension activates successfully:
+     Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (c:\Users\applejxd\src\chezmoi-syntax\out\test\extension.test.js)
+  	at listOnTimeout (node:internal/timers:588:17)
+  	at process.processTimers (node:internal/timers:523:7)
+
+1 test failed.
+[main 2026-02-25T13:09:04.650Z] Extension host with pid 39464 exited with code: 0, signal: unknown.
+Exit code:   1

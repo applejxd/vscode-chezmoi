@@ -1,4 +1,4 @@
-# Chezmoi Template Syntax
+# Chezmoi
 
 A VS Code extension that provides comprehensive syntax highlighting for [chezmoi](https://www.chezmoi.io/) templated files, combining base language syntax with Go Template highlighting.
 
@@ -60,7 +60,7 @@ export PATH="$PATH:{{ .custom_path }}"
 ### 🏗️ Core Components
 
 ```txt
-chezmoi-syntax/
+vscode-chezmoi/
 ├── 📁 src/                          # TypeScript source code
 │   ├── extension.ts                 # Main extension logic
 │   └── test/extension.test.ts       # Test suite
@@ -122,7 +122,7 @@ chezmoi-syntax/
 2. Install in VS Code:
 
    ```bash
-   code --install-extension chezmoi-template-syntax-0.1.*.vsix
+   code --install-extension vscode-chezmoi-0.1.*.vsix
    ```
 
 ### Development Installation
@@ -130,8 +130,8 @@ chezmoi-syntax/
 1. Clone and setup:
 
    ```bash
-   git clone https://github.com/applejxd/chezmoi-template-syntax.git
-   cd chezmoi-template-syntax
+   git clone https://github.com/applejxd/vscode-chezmoi.git
+   cd vscode-chezmoi
    npm install
    ```
 

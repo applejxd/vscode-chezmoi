@@ -1,11 +1,11 @@
 # Development Guide
 
-This document provides detailed information for developers working on the Chezmoi Template Syntax extension.
+This document provides detailed information for developers working on the Chezmoi extension.
 
 ## 📁 Project Structure
 
 ```
-chezmoi-syntax/
+vscode-chezmoi/
 ├── 📄 README.md                           # Main project documentation
 ├── 📄 CHANGELOG.md                        # Release notes and version history
 ├── 📄 package.json                        # Extension manifest and dependencies

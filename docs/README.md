@@ -1,6 +1,6 @@
 # Documentation Index
 
-This directory contains comprehensive documentation for the Chezmoi Template Syntax VS Code extension.
+This directory contains comprehensive documentation for the Chezmoi VS Code extension.
 
 ## 📚 Documentation Structure
 
@@ -125,9 +125,9 @@ When creating or updating documentation:
 - [Sprig Template Functions](http://masterminds.github.io/sprig/)
 
 ### Project Resources
-- [GitHub Repository](https://github.com/applejxd/chezmoi-template-syntax)
-- [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=applejxd.chezmoi-template-syntax)
-- [Issue Tracker](https://github.com/applejxd/chezmoi-template-syntax/issues)
+- [GitHub Repository](https://github.com/applejxd/vscode-chezmoi)
+- [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=applejxd.vscode-chezmoi)
+- [Issue Tracker](https://github.com/applejxd/vscode-chezmoi/issues)
 
 ---
 

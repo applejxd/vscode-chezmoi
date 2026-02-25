@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-This guide helps diagnose and resolve common issues with the Chezmoi Template Syntax extension.
+This guide helps diagnose and resolve common issues with the Chezmoi extension.
 
 ## 🚨 Quick Diagnostics
 
@@ -8,7 +8,7 @@ This guide helps diagnose and resolve common issues with the Chezmoi Template Sy
 
 1. **Verify Extension is Installed and Enabled**:
    - Open VS Code Extensions panel (`Ctrl+Shift+X`)
-   - Search for "Chezmoi Template Syntax"
+   - Search for "Chezmoi"
    - Ensure it's installed and enabled
 
 2. **Check Dependency Extension**:
@@ -117,7 +117,7 @@ text.chezmoi
 2. If issues persist: `Ctrl+Shift+P` → "Developer: Restart Extension Host"
 
 **Solution B: Reinstall Extension**
-1. Uninstall Chezmoi Template Syntax extension
+1. Uninstall Chezmoi extension
 2. Restart VS Code
 3. Reinstall extension
 4. Restart VS Code again
@@ -209,7 +209,7 @@ Check current associations:
 ```bash
 # In VS Code Terminal
 code --list-extensions | grep chezmoi
-code --install-extension applejxd.chezmoi-template-syntax --force
+code --install-extension applejxd.vscode-chezmoi --force
 ```
 
 ### Grammar File Validation

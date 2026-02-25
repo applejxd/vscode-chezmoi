@@ -41,7 +41,7 @@ yo code
 # Name: chezmoi-template-syntax
 # Identifier: chezmoi-template-syntax
 # Description: Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl, .py.tmpl)
-cd chezmoi-template-syntax
+cd vscode-chezmoi
 npm install
 ```
 

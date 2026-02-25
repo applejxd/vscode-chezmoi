@@ -4,7 +4,7 @@ import * as sinon from 'sinon';
 import * as vscode from 'vscode';
 
 /**
- * Test suite for the Chezmoi Template Syntax extension.
+ * Test suite for the Chezmoi extension.
  *
  * Uses parameterized test data and sinon for mocking VS Code APIs.
  */
@@ -56,6 +56,9 @@ suite('Extension Test Suite', () => {
 
 		setup(() => {
 			sandbox = sinon.createSandbox();
+			// Stub the info message to prevent UI interaction during tests
+			const stub = sandbox.stub(vscode.window, 'showInformationMessage') as sinon.SinonStub;
+			stub.resolves(undefined);
 		});
 
 		teardown(() => {
@@ -63,12 +66,12 @@ suite('Extension Test Suite', () => {
 		});
 
 		test('Extension is present', () => {
-			const ext = vscode.extensions.getExtension('applejxd.chezmoi-template-syntax');
+			const ext = vscode.extensions.getExtension('applejxd.vscode-chezmoi');
 			assert.ok(ext, 'Extension should be installed');
 		});
 
 		test('Extension activates successfully', async () => {
-			const ext = vscode.extensions.getExtension('applejxd.chezmoi-template-syntax');
+			const ext = vscode.extensions.getExtension('applejxd.vscode-chezmoi');
 			assert.ok(ext);
 			if (!ext.isActive) {
 				await ext.activate();
@@ -77,10 +80,6 @@ suite('Extension Test Suite', () => {
 		});
 
 		test('activate() does not throw on re-invocation', async () => {
-			// Stub the info message to prevent UI interaction during test
-			const stub = sandbox.stub(vscode.window, 'showInformationMessage') as sinon.SinonStub;
-			stub.resolves(undefined);
-
 			const { activate } = require('../extension') as typeof import('../extension');
 			await assert.doesNotReject(
 				() => activate({} as vscode.ExtensionContext),

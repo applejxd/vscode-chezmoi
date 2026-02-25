@@ -1,6 +1,6 @@
 {
-  "name": "chezmoi-template-syntax",
-  "displayName": "Chezmoi Template Syntax",
+  "name": "vscode-chezmoi",
+  "displayName": "Chezmoi",
   "description": "Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl, .py.tmpl, .toml.tmpl, .yaml.tmpl, .json.tmpl, .ini.tmpl): base language + Go Template injection",
   "version": "0.1.1",
   "publisher": "applejxd",
@@ -30,8 +30,8 @@
   },
   "badges": [
     {
-      "url": "https://img.shields.io/github/actions/workflow/status/applejxd/chezmoi-template-syntax/ci.yml?label=CI",
-      "href": "https://github.com/applejxd/chezmoi-template-syntax/actions",
+      "url": "https://img.shields.io/github/actions/workflow/status/applejxd/vscode-chezmoi/ci.yml?label=CI",
+      "href": "https://github.com/applejxd/vscode-chezmoi/actions",
       "description": "CI Status"
     }
   ],
@@ -39,12 +39,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/applejxd/chezmoi-template-syntax.git"
+    "url": "https://github.com/applejxd/vscode-chezmoi.git"
   },
   "bugs": {
-    "url": "https://github.com/applejxd/chezmoi-template-syntax/issues"
+    "url": "https://github.com/applejxd/vscode-chezmoi/issues"
   },
-  "homepage": "https://github.com/applejxd/chezmoi-template-syntax#readme",
+  "homepage": "https://github.com/applejxd/vscode-chezmoi#readme",
   "activationEvents": [],
   "main": "./out/extension.js",
   "extensionDependencies": [

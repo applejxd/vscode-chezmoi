@@ -1,8 +1,8 @@
-# Project Overview: Chezmoi Template Syntax Extension
+# Project Overview: Chezmoi Extension
 
 ## 🎯 Mission Statement
 
-The Chezmoi Template Syntax extension provides seamless dual syntax highlighting for chezmoi template files in VS Code, enabling developers to work efficiently with templated configuration files that combine base language syntax with Go Template expressions.
+The Chezmoi extension provides seamless dual syntax highlighting for chezmoi template files in VS Code, enabling developers to work efficiently with templated configuration files that combine base language syntax with Go Template expressions.
 
 ## 📋 Executive Summary
 
