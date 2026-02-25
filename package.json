@@ -2,7 +2,7 @@
   "name": "vscode-chezmoi",
   "displayName": "Chezmoi",
   "description": "Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl, .py.tmpl, .toml.tmpl, .yaml.tmpl, .json.tmpl, .ini.tmpl): base language + Go Template injection",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "publisher": "applejxd",
   "engines": {
     "vscode": "^1.90.0"

@@ -6,6 +6,30 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-02-25
+
+### Added
+- Support for `.yaml.tmpl` / `.yml.tmpl` (YAML), `.json.tmpl` (JSON), `.ini.tmpl` (INI) file types
+- Per-language `language-configuration-*.json` files with correct comment settings for each base language
+- `{{ }}` auto-closing and surrounding pairs in all language configurations
+- GitHub Actions CI workflow (lint, compile, test, VSIX packaging)
+- GitHub Actions Release workflow (automatic GitHub Release on tag push)
+- Marketplace metadata: icon, gallery banner, CI badge, `preview: true`
+- `sinon`-based tests for extension activation and idempotency
+- Parameterized (data-driven) file association tests covering all 9 file types
+- Versioning strategy documentation (`docs/VERSIONING.md`)
+
+### Changed
+- Renamed extension ID from `chezmoi-template-syntax` to `vscode-chezmoi`
+- Renamed display name from "Chezmoi Template Syntax" to "Chezmoi"
+- Changed activation strategy from `onStartupFinished` to implicit `onLanguage` (empty `activationEvents`)
+- Fixed Zsh scope name duplication (`source.shell.chezmoi` → `source.zsh.chezmoi`)
+- Refined injection selector to target only `.chezmoi`-suffixed scopes
+- Enhanced `.vscodeignore` to exclude docs, tests, and dev files from VSIX
+- Improved error handling in `activate()` with try-catch and "Reload Now" button
+- Enabled stricter TypeScript checks (`noImplicitReturns`, `noFallthroughCasesInSwitch`, `noUnusedParameters`)
+- Corrected documentation paths (`doc/` → `docs/`), fixed Mocha/Jest references
+
 ## [0.1.1] - 2026-02-15
 
 ### Added
@@ -25,14 +49,3 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Grammar injection for Go Template syntax within base languages
 - Automatic file association configuration on extension activation
 - Language configuration for proper editor behavior (brackets, auto-closing pairs)
-
-### Features
-- Dual syntax highlighting combining base language + Go Template syntax
-- Reliable file type recognition using explicit language definitions
-- Grammar injection targeting custom scopes for consistent highlighting
-- Dependency on Go Template extension for accurate template syntax
-
-### Technical Details
-- Custom language IDs: `chezmoi-tmpl`, `chezmoi-sh-tmpl`, `chezmoi-zsh-tmpl`, `chezmoi-ps1-tmpl`
-- Custom scopes: `text.plain.chezmoi`, `source.shell.chezmoi`, `source.powershell.chezmoi`
-- Injection selector excludes comments and strings to avoid false positives
