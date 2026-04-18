@@ -6,6 +6,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-04-19
+
+### Fixed
+- Changed `extensionDependencies` to `extensionPack` for `vscode-go-template` dependency
+- Fixed test environment to install `go-template` correctly during tests
+
 ## [0.2.0] - 2026-02-25
 
 ### Added
