@@ -39,7 +39,7 @@ suite('Extension Test Suite', () => {
 		}
 	});
 
-	test('Extension dependencies: Go Template extension', () => {
+	test('Optional dependency: Go Template extension installed in test environment', () => {
 		const ext = vscode.extensions.getExtension('jinliming2.vscode-go-template');
 		assert.ok(ext, 'Go Template extension should be available');
 	});
