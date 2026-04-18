@@ -2,7 +2,7 @@
   "name": "vscode-chezmoi",
   "displayName": "Chezmoi",
   "description": "Syntax highlighting for chezmoi templated files (.tmpl, .sh.tmpl, .zsh.tmpl, .ps1.tmpl, .py.tmpl, .toml.tmpl, .yaml.tmpl, .json.tmpl, .ini.tmpl): base language + Go Template injection",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "applejxd",
   "engines": {
     "vscode": "^1.90.0"
@@ -54,56 +54,102 @@
     "languages": [
       {
         "id": "chezmoi-tmpl",
-        "aliases": ["Chezmoi Template", "chezmoi-tmpl"],
-        "extensions": [".tmpl"],
+        "aliases": [
+          "Chezmoi Template",
+          "chezmoi-tmpl"
+        ],
+        "extensions": [
+          ".tmpl"
+        ],
         "configuration": "./language-configuration.json"
       },
       {
         "id": "chezmoi-sh-tmpl",
-        "aliases": ["Chezmoi Shell Template", "chezmoi-sh-tmpl"],
-        "extensions": [".sh.tmpl"],
+        "aliases": [
+          "Chezmoi Shell Template",
+          "chezmoi-sh-tmpl"
+        ],
+        "extensions": [
+          ".sh.tmpl"
+        ],
         "configuration": "./language-configuration-shell.json"
       },
       {
         "id": "chezmoi-zsh-tmpl",
-        "aliases": ["Chezmoi Zsh Template", "chezmoi-zsh-tmpl"],
-        "extensions": [".zsh.tmpl"],
+        "aliases": [
+          "Chezmoi Zsh Template",
+          "chezmoi-zsh-tmpl"
+        ],
+        "extensions": [
+          ".zsh.tmpl"
+        ],
         "configuration": "./language-configuration-shell.json"
       },
       {
         "id": "chezmoi-ps1-tmpl",
-        "aliases": ["Chezmoi PowerShell Template", "chezmoi-ps1-tmpl"],
-        "extensions": [".ps1.tmpl"],
+        "aliases": [
+          "Chezmoi PowerShell Template",
+          "chezmoi-ps1-tmpl"
+        ],
+        "extensions": [
+          ".ps1.tmpl"
+        ],
         "configuration": "./language-configuration-powershell.json"
       },
       {
         "id": "chezmoi-py-tmpl",
-        "aliases": ["Chezmoi Python Template", "chezmoi-py-tmpl"],
-        "extensions": [".py.tmpl"],
+        "aliases": [
+          "Chezmoi Python Template",
+          "chezmoi-py-tmpl"
+        ],
+        "extensions": [
+          ".py.tmpl"
+        ],
         "configuration": "./language-configuration-python.json"
       },
       {
         "id": "chezmoi-toml-tmpl",
-        "aliases": ["Chezmoi TOML Template", "chezmoi-toml-tmpl"],
-        "extensions": [".toml.tmpl"],
+        "aliases": [
+          "Chezmoi TOML Template",
+          "chezmoi-toml-tmpl"
+        ],
+        "extensions": [
+          ".toml.tmpl"
+        ],
         "configuration": "./language-configuration-toml.json"
       },
       {
         "id": "chezmoi-yaml-tmpl",
-        "aliases": ["Chezmoi YAML Template", "chezmoi-yaml-tmpl"],
-        "extensions": [".yaml.tmpl", ".yml.tmpl"],
+        "aliases": [
+          "Chezmoi YAML Template",
+          "chezmoi-yaml-tmpl"
+        ],
+        "extensions": [
+          ".yaml.tmpl",
+          ".yml.tmpl"
+        ],
         "configuration": "./language-configuration-yaml.json"
       },
       {
         "id": "chezmoi-json-tmpl",
-        "aliases": ["Chezmoi JSON Template", "chezmoi-json-tmpl"],
-        "extensions": [".json.tmpl"],
+        "aliases": [
+          "Chezmoi JSON Template",
+          "chezmoi-json-tmpl"
+        ],
+        "extensions": [
+          ".json.tmpl"
+        ],
         "configuration": "./language-configuration-json.json"
       },
       {
         "id": "chezmoi-ini-tmpl",
-        "aliases": ["Chezmoi INI Template", "chezmoi-ini-tmpl"],
-        "extensions": [".ini.tmpl"],
+        "aliases": [
+          "Chezmoi INI Template",
+          "chezmoi-ini-tmpl"
+        ],
+        "extensions": [
+          ".ini.tmpl"
+        ],
         "configuration": "./language-configuration-ini.json"
       }
     ],
