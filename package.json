@@ -47,7 +47,7 @@
   "homepage": "https://github.com/applejxd/vscode-chezmoi#readme",
   "activationEvents": [],
   "main": "./out/extension.js",
-  "extensionDependencies": [
+  "extensionPack": [
     "jinliming2.vscode-go-template"
   ],
   "contributes": {
